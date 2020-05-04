@@ -1,0 +1,23 @@
+{
+    "manifest_version" : 2,
+    "name" : "borderify",
+    "version" : "2.0",
+
+    "description" : "Putting walls everywhere",
+
+    "browser_action" : {
+        "default_icon":{
+            "48" : "icons/48_esc.jpg",
+            "96" : "icons/96_esc.jpg"
+        }
+    },
+
+    
+    "background" :{
+        "scripts" : ["welldamn.js"]  
+    },
+
+    "permissions":[
+        "notifications"
+    ]
+}

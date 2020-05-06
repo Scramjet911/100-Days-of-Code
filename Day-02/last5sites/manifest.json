@@ -1,0 +1,28 @@
+{
+    "manifest_version" : 2,
+    "name" : "last5sites",
+    "version" : "1.0",
+
+    "description" : "Stores the last 5 sites",
+
+    "browser_action" : {
+        "default_title" : "Your Last Visited Pages",
+        "default_icon" : {
+            "48" : "icons/48_esc.jpg",
+            "96" : "icons/96_esc.jpg"
+        }
+    },
+
+    "options_ui" : {
+        "page" : "last5places.html",
+        "browser_style" : true
+    },
+
+    "background" : {
+        "scripts" : ["background.js"]
+    },
+    
+    "permissions" : [
+        "storage"
+    ]
+}

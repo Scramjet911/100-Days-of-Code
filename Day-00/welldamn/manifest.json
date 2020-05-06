@@ -11,7 +11,6 @@
             "96" : "icons/96_esc.jpg"
         }
     },
-
     
     "background" :{
         "scripts" : ["welldamn.js"]  

@@ -10,12 +10,8 @@
         "default_icon" : {
             "48" : "icons/48_esc.jpg",
             "96" : "icons/96_esc.jpg"
-        }
-    },
-
-    "options_ui" : {
-        "page" : "last5places.html",
-        "browser_style" : true
+        },
+        "default_popup" : "popup/last5places.html"
     },
 
     "background" : {

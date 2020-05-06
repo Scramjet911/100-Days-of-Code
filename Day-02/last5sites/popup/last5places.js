@@ -18,5 +18,10 @@ function showList(){
     },onError);
 }
 
+function onError(error) {
+    console.log(error);
+}
+
+console.log("Extension Script Loaded")
 showList();
 

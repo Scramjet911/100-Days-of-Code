@@ -4,6 +4,7 @@ function addtolist(tabId, changeInfo, tabInfo){
         var headVal = browser.storage.local.get("0");
         headVal.then(() =>{
             var listLen;
+            console.log("Header File Read\n");
             if(headVal == null){
                 listLen = "0";
             }
@@ -13,10 +14,14 @@ function addtolist(tabId, changeInfo, tabInfo){
             if(parseInt(listLen) < 1){
                 browser.storage.local.set("0") = "1";
                 browser.storage.local.set("1") = changeInfo.url;
+                console.log("Added First Element\n")
             }
             else if(parseInt(listLen < 5)){
                 listLen = (parseInt(listLen)+1).toString();
                 browser.storage.local.set(listLen) = changeInfo.url;
+                browser.storage.local.set("0") = listLen;
+                console.log("Added element "+changeInfo.url);
+                console.log("Number of Stored links less than 5\n")
             }
             else if(parseInt(listLen) >= 5){
                 var i;
@@ -24,6 +29,8 @@ function addtolist(tabId, changeInfo, tabInfo){
                     browser.storage.local.set((i).toString()) = browser.storage.local.get((i+1).toString);
                 }
                 browser.storage.local.set("5") = changeInfo.url;
+                console.log("Added element "+changeInfo.url);
+                console.log("Number of Stored links greater than 5\n")
             }
         },onError);
     }
@@ -34,10 +41,6 @@ function onError(error) {
     console.log(error);
 }
 
-function openMain(){
-    browser.runtime.openOptionsPage();
-}
-
-browser.browserAction.onClicked.addListener(openMain)
+// console.log("Started Background Task")
 browser.tabs.onUpdated.addListener(addtolist);
-browser.tabs.onActivated.addListener(addtolist);
+// browser.tabs.onActivated.addListener(addtolist);

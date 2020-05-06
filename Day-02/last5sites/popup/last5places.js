@@ -3,7 +3,7 @@ function showList(){
     headVal.then(() => {
         if(headVal != null){
             var listLen = headVal["0"];
-            list = document.createElement('div');
+            list = document.getElementById('siteList');
             if(parseInt(listLen)>0){
                 var i;
                 for(i = 0; i<=parseInt(listLen); i++){

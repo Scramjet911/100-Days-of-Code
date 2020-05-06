@@ -1,15 +1,17 @@
 function addtolist(tabId, changeInfo, tabInfo){
+    // console.log(changeInfo.url, tabId, tabInfo);
     if(changeInfo.url){
-        document.getElementById("siteList").innerHTML += changeInfo.url;
         var headVal = browser.storage.local.get("0");
-        headVal.then(() =>{
+        headVal.then(() => {
             var listLen;
             console.log("Header File Read\n");
             if(headVal == null){
                 listLen = "0";
+                console.log("Header Value is Null");
             }
             else{
                 listLen = headVal["0"];
+                console.log("Header Value is Not Null : " + headVal);
             }
             if(parseInt(listLen) < 1){
                 browser.storage.local.set("0") = "1";

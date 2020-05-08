@@ -1,18 +1,19 @@
 function showList(){
-    var headVal = browser.storage.local.get("0");
-    headVal.then(() => {
-        if(headVal != null){
-            var listLen = headVal["0"];
-            list = document.getElementById('siteList');
-            if(parseInt(listLen)>0){
+    var retVal = browser.storage.local.get(null);
+    retVal.then((headVal) => {
+        if(JSON.stringify(Object.keys(headVal)) != JSON.stringify([])){
+            var listLen = headVal["data"].length;
+            sites = document.getElementById('siteList');
+            if(listLen>0){
                 var i;
-                for(i = 0; i<=parseInt(listLen); i++){
-                    listDisplay = document.createElement('div');
-                    para = document.createElement('p')
-                    para.textContent((browser.storage.local.get(i.toString()))[i.toString()]);
-                    listDisplay.appendChild(para);
+                for(i = 0; i<=listLen; i++){
+                    if(headVal.data[i] == '' || headVal.data[i]==undefined)
+                        continue;
+                    listElem = document.createElement('li');
+                    listVal = document.createTextNode(headVal.data[i])
+                    listElem.appendChild(listVal);
+                    sites.appendChild(listElem);
                 }
-                list.appendChild(listDisplay);
             }
         }
     },onError);

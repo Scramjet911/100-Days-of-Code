@@ -1,41 +1,40 @@
 function addtolist(tabId, changeInfo, tabInfo){
-    // console.log(changeInfo.url, tabId, tabInfo);
-    if(changeInfo.url){
-        var headVal = browser.storage.local.get("0");
-        headVal.then(() => {
+    currSite = changeInfo.url;
+    // console.log(currSite, tabId, tabInfo);
+    if(currSite){
+        var headRes = browser.storage.local.get(null);
+        headRes.then((headVal) => {
             var listLen;
-            console.log("Header File Read\n");
-            if(headVal == null){
-                listLen = "0";
-                console.log("Header Value is Null");
+            console.log("Header File Read\n" + headVal.keys);
+            if(JSON.stringify(Object.keys(headVal)) == JSON.stringify([])){
+                listLen = 1;
+                console.log("There is no stored Data");
+                let storeVal = {"data":[currSite]};
+                browser.storage.local.set(storeVal);
             }
             else{
-                listLen = headVal["0"];
-                console.log("Header Value is Not Null : " + headVal);
-            }
-            if(parseInt(listLen) < 1){
-                browser.storage.local.set("0") = "1";
-                browser.storage.local.set("1") = changeInfo.url;
-                console.log("Added First Element\n")
-            }
-            else if(parseInt(listLen < 5)){
-                listLen = (parseInt(listLen)+1).toString();
-                browser.storage.local.set(listLen) = changeInfo.url;
-                browser.storage.local.set("0") = listLen;
-                console.log("Added element "+changeInfo.url);
-                console.log("Number of Stored links less than 5\n")
-            }
-            else if(parseInt(listLen) >= 5){
-                var i;
-                for(i = 1; i<=4; i++){
-                    browser.storage.local.set((i).toString()) = browser.storage.local.get((i+1).toString);
+                console.log("Stored Data Found : " + Object.keys(headVal));
+                
+                let urlList = headVal.data;
+                if(currSite != undefined){
+                    listLen = urlList.push(currSite);
+                
+                    console.log("Added element "+ currSite);
+                    console.log("Current List Length : " + listLen);
+                    if(listLen > 5){
+                        let remElement = urlList.shift();
+                        console.log("Number of Stored links greater than 5, Removed Element : " + remElement);
+                    }
+                    // console.log("Final array : " + urlList);
+                    let storeVal = {"data":urlList};
+                    browser.storage.local.remove("data");
+                    browser.storage.local.set(storeVal);
                 }
-                browser.storage.local.set("5") = changeInfo.url;
-                console.log("Added element "+changeInfo.url);
-                console.log("Number of Stored links greater than 5\n")
             }
+            browser.storage.local.get(null,(storedData)=>console.log(storedData.data));
+
         },onError);
-    }
+}
 }
 
 

@@ -5,5 +5,7 @@ function alertNotify(){
         "message" : "Well what do we have here....",
         "iconUrl" : "icons/welldamn.jpg"
     });
+    console.log("Background Script Loaded");
+
 }
 browser.browserAction.onClicked.addListener(alertNotify);

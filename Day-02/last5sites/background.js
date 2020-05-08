@@ -16,7 +16,7 @@ function addtolist(tabId, changeInfo, tabInfo){
                 console.log("Stored Data Found : " + Object.keys(headVal));
                 
                 let urlList = headVal.data;
-                if(currSite != undefined){
+                if((currSite != undefined) && (urlList[urlList.length-1] != currSite)){
                     listLen = urlList.push(currSite);
                 
                     console.log("Added element "+ currSite);

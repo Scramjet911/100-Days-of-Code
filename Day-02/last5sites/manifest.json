@@ -21,5 +21,11 @@
     "permissions" : [
         "storage",
         "tabs"
-    ]
+    ],
+
+    "browser_specific_settings" : {
+        "gecko" : {
+            "id" : "last5places@scramjet911"
+        }
+    }
 }

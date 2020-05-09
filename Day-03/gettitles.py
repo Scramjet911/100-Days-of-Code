@@ -2,18 +2,27 @@ from bs4 import BeautifulSoup
 import docx
 from docx import Document
 import requests
+from fake_useragent import UserAgent
+ua = UserAgent()
 
 def remove_hyperlink(para):
-    label_r = para.xpath("./w:hyperlink/w:r")[0]
-    hyperlink = para.xpath("./w:hyperlink")[0]
-    hyperlink.add_previous(label_r)
-    para.remove(hyperlink)
+    p = para._p
+    label_r = p.xpath("./w:hyperlink/w:r")[0]
+    hyperlink = p.xpath("./w:hyperlink")[0]
+    # print(label_r)
+    # print(hyperlink)
+    if('list' not in str(type(label_r))):
+        hyperlink.addprevious(label_r)
+        p.remove(hyperlink)
 
 def gettext(fileloc):
     finalText = []
     doc = Document(fileloc)
     for line in doc.paragraphs:
-        remove_hyperlink(line)
+        try:
+            remove_hyperlink(line)
+        except IndexError:
+            pass
         if(line.text !=''):
             finalText.append(line.text)
     return finalText
@@ -41,20 +50,25 @@ def add_hyperlink(para, text, url):
     return hyperlink
 
 def get_h1(url):
-    response = requests.get(url,timeout = 5)
+    header = {'User-Agent': str(ua.chrome)}
+    response = requests.get(url)
     content = BeautifulSoup(response.content,"html.parser")
-    Headlist = content.find('h1')
-    return Headlist
+    headText = content.find('h1')
+    if(headText is not None):
+        headText = headText.text
+        return headText
 # print(docText)
 # for i in docText:
 #     print(JSON.stringify(i))
 docText = gettext('Test.docx')
-print(docText)
+# print(docText)
 newdoc = Document()
 newdoc.add_heading('The Formatted Links List', level = 0)
 for i in docText:
     h1 = get_h1(i)
-    para = newdoc.add_paragraph('Header is ')
-    add_hyperlink(para,'here',i)
+    print(h1)
+    # h1 += "   "
+    para = newdoc.add_paragraph('Link is ')
+    add_hyperlink(para,'Site',i)
 
 newdoc.save('savetest.docx')

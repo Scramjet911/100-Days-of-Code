@@ -1,2 +1,2 @@
 # A Special type of Document creator
-## This python script takes a word document as input which contains multiple hyperlinks and creates a new Document with the Site Information and the HyperLink itself for easier categorisation
+### This python script takes a word document as input which contains multiple hyperlinks and creates a new Document with the Site Information and the HyperLink itself for easier categorisation

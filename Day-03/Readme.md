@@ -4,4 +4,4 @@
 
 ``` python gettitles.py <input_file.docx> <output_file.docx> ```
   
-The default input file is Input.docx and output file is Output.docx.
+The default input file is 'Input.docx' and output file is 'Output.docx'.

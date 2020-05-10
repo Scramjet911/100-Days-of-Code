@@ -2,22 +2,23 @@ from bs4 import BeautifulSoup
 import docx
 from docx import Document
 import requests
-from fake_useragent import UserAgent
-ua = UserAgent()
+import sys
 
 def remove_hyperlink(para):
     p = para._p
     label_r = p.xpath("./w:hyperlink/w:r")[0]
     hyperlink = p.xpath("./w:hyperlink")[0]
-    # print(label_r)
-    # print(hyperlink)
     if('list' not in str(type(label_r))):
         hyperlink.addprevious(label_r)
         p.remove(hyperlink)
 
 def gettext(fileloc):
     finalText = []
-    doc = Document(fileloc)
+    try:
+        doc = Document(fileloc)
+    except:
+        return -1
+
     for line in doc.paragraphs:
         try:
             remove_hyperlink(line)
@@ -26,6 +27,7 @@ def gettext(fileloc):
         if(line.text !=''):
             finalText.append(line.text)
     return finalText
+
 
 def add_hyperlink(para, text, url):
     part = para.part
@@ -50,25 +52,37 @@ def add_hyperlink(para, text, url):
     return hyperlink
 
 def get_h1(url):
-    header = {'User-Agent': str(ua.chrome)}
     response = requests.get(url)
     content = BeautifulSoup(response.content,"html.parser")
     headText = content.find('h1')
     if(headText is not None):
         headText = headText.text
         return headText
-# print(docText)
-# for i in docText:
-#     print(JSON.stringify(i))
-docText = gettext('Test.docx')
-# print(docText)
+
+argsList = sys.argv
+inputfile = 'Input.docx'
+outputfile = 'Output.docx'
+if(len(argsList) > 3):
+    print("Incorrect Number of arguments (Maximum 2 Arguments are allowed")
+
+elif(len(argsList)==2):
+    inputfile = sys.argv[1]
+elif(len(argsList)==3):
+    inputfile = sys.argv[1]
+    outputfile = sys.argv[2]
+    
+docText = gettext(inputfile)
+if(docText == -1):
+    print("Input Document Not Found")
+    exit()
 newdoc = Document()
 newdoc.add_heading('The Formatted Links List', level = 0)
 for i in docText:
     h1 = get_h1(i)
-    print(h1)
-    # h1 += "   "
-    para = newdoc.add_paragraph('Link is ')
-    add_hyperlink(para,'Site',i)
+    if(h1 == None):
+        h1 = "Heading Not found"
+    para = newdoc.add_paragraph(h1 + ' : ')
+    add_hyperlink(para,'Open Site',i)
 
-newdoc.save('savetest.docx')
+newdoc.save(outputfile)
+print("Formatted Document saved as {}".format(outputfile))

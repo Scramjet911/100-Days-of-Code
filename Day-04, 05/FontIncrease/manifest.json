@@ -20,7 +20,7 @@
 
     "permissions" : [
         "storage",
-        "<all_urls>"
+        "webNavigation"
     ],
 
     "browser_specific_settings" : {

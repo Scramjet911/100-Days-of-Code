@@ -20,10 +20,17 @@
 
     "permissions" : [
         "storage",
-        "webNavigation"
+        "webNavigation",
+        "tabs"
     ],
 
-    "browser_specific_settings" : {
+    "content_scripts" : [
+        {
+        "matches": ["<all_urls>"],
+        "js" : ["content_script.js"]
+        }
+    ],
+    "browser_specific_settings" : { 
         "gecko" : {
             "id" : "fontincrease@scramjet911"
         }
